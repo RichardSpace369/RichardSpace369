@@ -228,7 +228,7 @@ widgets:
         # Author's current location
         location: chengdu,sichuan
         # URL or path to the avatar image
-        avatar: https://octodex.github.com/images/hula_loop_octodex03.gif
+        avatar: /img/avatar.png
         # 是否显示圆形头像
         avatar_rounded: false
         # Email address for the Gravatar
