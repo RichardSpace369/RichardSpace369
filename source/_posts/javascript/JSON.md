@@ -1,6 +1,7 @@
 ---
 title: JSON
 author: richard
+date: 2021/03/05 18:36:00
 toc: true
 excerpt: 理解 JSON 最关键的一点是要把它当成一种数据格式，而不是编程语言。JSON 不属于 JavaScript，它们只是拥有相同的语法而已。JSON 也不是只能在 JavaScript 中使用，它是一种通用数据格式...
 categories:
