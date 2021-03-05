@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>安全算法 - richardSpace</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="richardSpace"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="richardSpace"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="针对网络传输遇到的四个问题，以及对应的解决方案..."><meta property="og:type" content="blog"><meta property="og:title" content="安全算法"><meta property="og:url" content="https://richardspace369.github.io/2021/03/05/data/%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95/"><meta property="og:site_name" content="richardSpace"><meta property="og:description" content="针对网络传输遇到的四个问题，以及对应的解决方案..."><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://richardspace369.github.io/img/og_image.png"><meta property="article:published_time" content="2021-03-05T07:29:53.383Z"><meta property="article:modified_time" content="2021-03-05T07:29:53.383Z"><meta property="article:author" content="richard"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://richardspace369.github.io/2021/03/05/data/%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95/"},"headline":"richardSpace","image":["https://richardspace369.github.io/img/og_image.png"],"datePublished":"2021-03-05T07:29:53.383Z","dateModified":"2021-03-05T07:29:53.383Z","author":{"@type":"Person","name":"richard"},"description":"针对网络传输遇到的四个问题，以及对应的解决方案..."}</script><link rel="canonical" href="https://richardspace369.github.io/2021/03/05/data/%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.4.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">RichardSpace</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/RichardSpace369"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-03-05T07:29:53.383Z" title="3/5/2021, 7:29:53 AM">2021-03-05</time>发表</span><span class="level-item"><time dateTime="2021-03-05T07:29:53.383Z" title="3/5/2021, 7:29:53 AM">2021-03-05</time>更新</span><span class="level-item"> richard </span><span class="level-item"><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a><span> / </span><a class="link-muted" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E5%AE%89%E5%85%A8%E7%AE%97%E6%B3%95/">安全算法</a></span><span class="level-item">18 分钟读完 (大约2731个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">安全算法</h1><div class="content"><h2 id="传输数据时的四个问题"><a href="#传输数据时的四个问题" class="headerlink" title="传输数据时的四个问题"></a>传输数据时的四个问题</h2><ol>
+<li>窃听<br>A向B发送的消息可能会在传输途中被X偷看</li>
+<li>假冒<br>A以为向B发送了消息，然而B有可能是X冒充的；反过来，B以为从A那里收到了消息，然而A也有可能是X冒充的。</li>
+<li>篡改<br>即便B确实收到了A发送的消息，但也有可能像右图这样，该消息的内容在途中就被X更改了</li>
+<li>事后否认<br>B从A那里收到了消息，但作为消息发送者的A可能对B抱有恶意，并在事后声称“这不是我发送的消息”</li>
+</ol>
+<p>为了应对第一个问题“窃听”，我们会使用”加密”技术。<br>为了应对第二个问题“假冒”，我们会使用”消息认证码”或”数字签名”技术。<br>为了应对第三个问题“篡改”，我们同样会使用“消息认证码”或“数字签名”技术。其中“数字签名”技术还可以用于预防第四个问题“事后否认”</p>
+<h2 id="理解加密"><a href="#理解加密" class="headerlink" title="理解加密"></a>理解加密</h2><p>首先，计算机会用由0和1这两个数字表示的二进制来管理所有数据</p>
+<p>对计算机来说，数据就是一串有意义的数字罗列。密文也是数字罗列，只不过它是计算机无法理解的无规律的数字罗列。</p>
+<p>加密就是用密钥对数据进行数值运算，把数据变成<strong>第三者无法理解的形式</strong>的过程</p>
+<h2 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h2><ol>
+<li>无论数据规模，输出长度不变</li>
+<li>输入的数据相同，那么输出的哈希值也必定相同</li>
+<li>即使输入的数据相似，但哪怕它们只有一比特的差别，那么输出的哈希值也会有很大的差异</li>
+<li>即使输入的两个数据完全不同，输出的哈希值也有可能是相同的，虽然出现这种情况的概率比较低。这种情况叫作“哈希冲突</li>
+<li>不可能从哈希值反向推算出原本的数据。输入和输出不可逆这一点和加密有很大不同。</li>
+</ol>
+<p><strong>哈希函数的算法中具有代表性的是MD5、SHA-1和SHA-2等。其中SHA-2是现在应用较为广泛的一个，而MD5和SHA-1存在安全隐患，不推荐使用</strong></p>
+<h2 id="共享密钥加密"><a href="#共享密钥加密" class="headerlink" title="共享密钥加密"></a>共享密钥加密</h2><p>加密数据的方法可以分为两种：加密和解密都使用相同密钥的“共享密钥加密”和分别使用不同密钥的“公开密钥加密”</p>
+<p><strong>实现共享密钥加密的算法有凯撒密码、AES、DES、动态口令等，其中AES的应用最为广泛</strong></p>
+<p>问题：密钥有被第三者窃听的风险</p>
+<p>因此需要找到可以把密钥安全送出的方法，这就是“密钥分配问题”</p>
+<p>要想解决这个问题，可以使用“密钥交换协议”和“公开密钥加密”两种方法。</p>
+<h2 id="公开密钥加密"><a href="#公开密钥加密" class="headerlink" title="公开密钥加密"></a>公开密钥加密</h2><p>公开密钥加密是加密和解密使用不同密钥的一种加密方法。由于使用的密钥不同，所以这种算法也被称为“非对称加密”。加密用的密钥叫作“公开密钥”，解密用的叫作“私有密钥”。</p>
+<p><strong>实现公开密钥加密的算法有RAS算法、椭圆曲线加密算法等，其中使用最为广泛的是RSA算法</strong></p>
+<p>公开密钥的可靠性会出现问题，就是因为A无法判断收到的公开密钥是否来自B(中间人攻击)。要想解决这个问题，就要用到之后会讲到的“数字证书”。</p>
+<p>公开密钥加密还有一个问题，那就是加密和解密都比较耗时，所以这种方法不适用于持续发送零碎数据的情况。要想解决这个问题，就要用到“混合加密”。</p>
+<h2 id="混合加密"><a href="#混合加密" class="headerlink" title="混合加密"></a>混合加密</h2><p>共享密钥加密存在无法安全传输密钥的密钥分配问题，公开密钥加密又存在加密解密速度较慢的问题。结合这两种方法以实现互补的一种加密方法就是混合加密。</p>
+<p>在混合加密中，要用处理速度较快的共享密钥加密对数据进行加密。不过，加密时使用的密钥，则需要用没有密钥分配问题的公开密钥加密进行处理。</p>
+<p>混合加密在安全性和处理速度上都有优势。能够为网络提供通信安全的SSL协议也应用了混合加密方法。SSL是Secure Sockets Layer（安全套接层）的简写，该协议经过版本升级后，现在已正式命名为TLS（TransportLayer Security，传输层安全）</p>
+<h2 id="迪菲-赫尔曼密钥交换"><a href="#迪菲-赫尔曼密钥交换" class="headerlink" title="迪菲-赫尔曼密钥交换"></a>迪菲-赫尔曼密钥交换</h2><p>迪菲-赫尔曼（Diffie-Hellman）密钥交换是一种可以在通信双方之间安全交换密钥的方法。这种方法通过将双方共有的秘密数值隐藏在公开数值相关的运算中，来实现双方之间密钥的安全交换。</p>
+<p>合成密钥的方法具有如下特征：</p>
+<p>第一，即使持有密钥P和合成的密钥P-S，也无法把密钥S单独取出来。</p>
+<p>第二，不管是怎样合成而来的密钥，都可以把它作为新的元素，继续与别的密钥进行合成。比如上图中的这个例子，使用密钥P和密钥P-S，还能合成出新的密钥P-P-S</p>
+<p>第三，密钥的合成结果与合成顺序无关，只与用了哪些密钥有关。比如合成密钥B和密钥C后，得到的是密钥B-C，再将其与密钥A合成，得到的就是密钥A-B-C。而合成密钥A和密钥C后，得到的是密钥A-C，再将其与密钥B合成，得到的就是密钥B-A-C。此处的密钥A-B-C和密钥B-A-C是一样的</p>
+<h2 id="消息认证码"><a href="#消息认证码" class="headerlink" title="消息认证码"></a>消息认证码</h2><p>消息认证码可以实现“认证”和“检测篡改”这两个功能。密文的内容在传输过程中可能会被篡改，这会导致解密后的内容发生变化，从而产生误会。消息认证码就是可以预防这种情况发生的机制。</p>
+<p>我们以A正要向B发送密文的时候举例</p>
+<ol>
+<li>A生成了一个用于制作消息认证码的密钥，然后使用安全的方法将密钥发送给了B。</li>
+<li>A使用密文和密钥生成一个值。此处生成的是7f05。这个由密钥和密文生成的值就是消息认证码，以下简称为MAC（Message Authentication Code）。</li>
+<li>A将MAC（7f05）和密文(密文使用的是安全的交换方式)发送给B。</li>
+<li>B也需要使用密文和密钥来生成MAC。经过对比，B可以确认自己计算出来的7f05和A发来的7f05一致</li>
+<li>B只需使用密钥对密文进行解密即可。最终B成功取得了A发送过来的商品编号abc。</li>
+</ol>
+<p>我们可以把MAC想象成是由密钥和密文组成的字符串的“哈希值”。计算MAC的算法有HMAC、OMAC、CMAC等。目前，HMAC的应用最为广泛。</p>
+<p>缺点：</p>
+<p>在使用消息认证码的过程中，AB双方都可以对消息进行加密并且算出MAC。也就是说，我们无法证明原本的消息是A生成的还是B生成的。</p>
+<p>因此，假如A是坏人，他就可以在自己发出消息后声称“这条消息是B捏造的”，而否认自己的行为。如果B是坏人，他也可以自己准备一条消息，然后声称“这是A发给我的消息”。</p>
+<p>使用MAC时，生成的一方和检测的一方持有同样的密钥，所以不能确定MAC由哪方生成。这个问题可以用下一节将会讲到的“数字签名”来解决。</p>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名不仅可以实现消息认证码的认证和检测篡改功能，还可以预防事后否认问题的发生。由于在消息认证码中使用的是共享密钥加密，所以持有密钥的收信人也有可能是消息的发送者，这样是无法预防事后否认行为的。而数字签名是只有发信人才能生成的，因此使用它就可以确定谁是消息的发送者了。</p>
+<p><strong>数字签名的生成使用的是公开密钥加密。</strong></p>
+<p>那就是，虽然使用数字签名后B会相信消息的发送者就是A，但实际上也有可能是X冒充了A</p>
+<p>其根本原因在于使用公开密钥加密无法确定公开密钥的制作者是谁。收到的公开密钥上也没有任何制作者的信息。因此，公开密钥有可能是由某个冒充A的人生成的</p>
+<p>使用“数字证书”就能解决这个问题。</p>
+<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p>公开密钥加密”和“数字签名”无法保证公开密钥确实来自信息的发送者。因此，就算公开密钥被第三者恶意替换，接收方也不会注意到。不过，如果使用本节讲解的数字证书，就能保证公开密钥的正确性</p>
+<p>那就是，B得到的公开密钥PC真的来自认证中心吗？</p>
+<p>由于公开密钥自身不能表示其制作者，所以有可能是冒充认证中心的X所生成的。也就是说，这里同样存在公开密钥问题</p>
+<p>实际上，认证中心的公开密钥PC是以数字证书的形式交付的，会有更高级别的认证中心对这个认证中心署名</p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>安全算法</p><p><a href="https://richardspace369.github.io/2021/03/05/data/安全算法/">https://richardspace369.github.io/2021/03/05/data/安全算法/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>richard</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2021-03-05</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2021-03-05</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a class="icon" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a><a class="icon" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2021/03/05/data/%E9%98%9F%E5%88%97/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">队列</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/03/05/javascript/object/"><span class="level-item">Object</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#传输数据时的四个问题"><span class="level-left"><span class="level-item">1</span><span class="level-item">传输数据时的四个问题</span></span></a></li><li><a class="level is-mobile" href="#理解加密"><span class="level-left"><span class="level-item">2</span><span class="level-item">理解加密</span></span></a></li><li><a class="level is-mobile" href="#哈希函数"><span class="level-left"><span class="level-item">3</span><span class="level-item">哈希函数</span></span></a></li><li><a class="level is-mobile" href="#共享密钥加密"><span class="level-left"><span class="level-item">4</span><span class="level-item">共享密钥加密</span></span></a></li><li><a class="level is-mobile" href="#公开密钥加密"><span class="level-left"><span class="level-item">5</span><span class="level-item">公开密钥加密</span></span></a></li><li><a class="level is-mobile" href="#混合加密"><span class="level-left"><span class="level-item">6</span><span class="level-item">混合加密</span></span></a></li><li><a class="level is-mobile" href="#迪菲-赫尔曼密钥交换"><span class="level-left"><span class="level-item">7</span><span class="level-item">迪菲-赫尔曼密钥交换</span></span></a></li><li><a class="level is-mobile" href="#消息认证码"><span class="level-left"><span class="level-item">8</span><span class="level-item">消息认证码</span></span></a></li><li><a class="level is-mobile" href="#数字签名"><span class="level-left"><span class="level-item">9</span><span class="level-item">数字签名</span></span></a></li><li><a class="level is-mobile" href="#数字证书"><span class="level-left"><span class="level-item">10</span><span class="level-item">数字证书</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="column-right-shadow is-hidden-widescreen"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3"><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-05T07:29:53.383Z">2021-03-05</time></p><p class="title"><a href="/2021/03/05/javascript/generator/">generator</a></p><p class="categories"><a href="/categories/javascript/">javascript</a> / <a href="/categories/javascript/generator/">generator</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-05T07:29:53.383Z">2021-03-05</time></p><p class="title"><a href="/2021/03/05/data/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-05T07:29:53.383Z">2021-03-05</time></p><p class="title"><a href="/2021/03/05/data/%E6%95%B0%E7%BB%84/">数组</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E7%BB%84/">数组</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-05T07:29:53.383Z">2021-03-05</time></p><p class="title"><a href="/2021/03/05/data/%E6%A0%88/">栈</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%A0%88/">栈</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-05T07:29:53.383Z">2021-03-05</time></p><p class="title"><a href="/2021/03/05/data/%E7%9F%A9%E9%98%B5/">矩阵</a></p><p class="categories"><a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a> / <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E7%9F%A9%E9%98%B5/">矩阵</a></p></div></article></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">RichardSpace</a><p class="is-size-7"><span>&copy; 2021 richard</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/RichardSpace369"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
