@@ -1,5 +1,5 @@
 ---
-title: generator
+title: 异步编程-generator
 author: richard
 toc: true
 excerpt: generator是一种控制程序原型的方式...

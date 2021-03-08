@@ -1,5 +1,5 @@
 ---
-title: promise
+title: 异步编程-promise
 author: richard
 toc: true
 excerpt: promise 是一种回调的语法糖，它仅仅是书写上是一个同步的..
@@ -11,6 +11,66 @@ categories:
 ## 理解promise
 >Promise 对象用于表示一个异步操作的最终完成 (或失败)及其结果值。
 
+### Promise 如何解决回调地狱
+回调地狱有两个主要的问题：
+
+1. 多层嵌套的问题；
+
+2. 每种任务的处理结果存在两种可能性（成功或失败），那么需要在每种任务执行结束后分别处理这两种可能性。
+
+Promise 的诞生就是为了解决这两个问题。Promise 利用了三大技术手段来解决回调地狱：**回调函数延迟绑定、返回值穿透、错误冒泡**
+
+#### 延迟绑定
+
+思考如下代码
+
+```
+let readFilePromise = filename => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filename, (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
+// 这里就是回调函数延迟绑定，先执行，再通过then 来绑定回调函数
+readFilePromise('1.json').then(data => {
+  return readFilePromise('2.json')
+});
+```
+#### 返回值穿透
+
+我们 将上面的代码改成下面这样
+
+```
+let x = readFilePromise('1.json').then(data => {
+  return readFilePromise('2.json')  //这是返回的Promise
+});
+x.then(/* 内部逻辑省略 */)
+```
+
+我们根据 then 中回调函数的传入值创建不同类型的 Promise，然后把返回的 Promise 穿透到外层，以供后续的调用。这里的 x 指的就是内部返回的 Promise，然后在 x 后面可以依次完成链式调用。这便是返回值穿透的效果，这两种技术一起作用便可以将深层的嵌套回调写成下面的形式。
+
+#### 错误冒泡
+
+上面的方式解决了多层嵌套的问题，那另外一个问题，即每次任务执行结束后分别处理成功和失败的情况怎么解决的呢？Promise 采用了错误冒泡的方式。其实很容易理解，我们来看看效果。
+
+```
+readFilePromise('1.json').then(data => {
+    return readFilePromise('2.json');
+}).then(data => {
+    return readFilePromise('3.json');
+}).then(data => {
+    return readFilePromise('4.json');
+}).catch(err => {
+  // xxx
+})
+
+```
+这样前面产生的错误会一直向后传递，被 catch 接收到，就不用频繁地检查错误了。从上面的这些代码中可以看到，Promise 解决效果也比较明显：实现链式调用，解决多层嵌套问题；实现错误冒泡后一站式处理，解决每次任务中判断错误、增加代码混乱度的问题
 
 ## Promise 的原型上的方法
 
@@ -483,3 +543,5 @@ var urls = [
 			});
 
 ```
+
+### 手动实现一个promise
