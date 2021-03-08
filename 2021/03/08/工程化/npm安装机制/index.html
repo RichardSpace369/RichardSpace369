@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>前端工程化-npm 安装机制 - richardSpace</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="richardSpace"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="richardSpace"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="掌握了解npm 安装机制..."><meta property="og:type" content="blog"><meta property="og:title" content="前端工程化-npm 安装机制"><meta property="og:url" content="https://richardspace369.github.io/2021/03/08/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6/"><meta property="og:site_name" content="richardSpace"><meta property="og:description" content="掌握了解npm 安装机制..."><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://richardspace369.github.io/img/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6.jpg"><meta property="og:image" content="https://richardspace369.github.io/img/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm-cache.jpg"><meta property="article:published_time" content="2021-03-08T10:06:08.329Z"><meta property="article:modified_time" content="2021-03-08T10:06:08.329Z"><meta property="article:author" content="richard"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://richardspace369.github.io/2021/03/08/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6/"},"headline":"richardSpace","image":["https://richardspace369.github.io/img/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6.jpg","https://richardspace369.github.io/img/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm-cache.jpg"],"datePublished":"2021-03-08T10:06:08.329Z","dateModified":"2021-03-08T10:06:08.329Z","author":{"@type":"Person","name":"richard"},"description":"掌握了解npm 安装机制..."}</script><link rel="canonical" href="https://richardspace369.github.io/2021/03/08/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.4.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">RichardSpace</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/RichardSpace369"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-03-08T10:06:08.329Z" title="3/8/2021, 10:06:08 AM">2021-03-08</time>发表</span><span class="level-item"><time dateTime="2021-03-08T10:06:08.329Z" title="3/8/2021, 10:06:08 AM">2021-03-08</time>更新</span><span class="level-item"> richard </span><span class="level-item"><a class="link-muted" href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></span><span class="level-item">12 分钟读完 (大约1848个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">前端工程化-npm 安装机制</h1><div class="content"><h2 id="npm-内部机制和核心原理"><a href="#npm-内部机制和核心原理" class="headerlink" title="npm 内部机制和核心原理"></a>npm 内部机制和核心原理</h2><h3 id="npm-的安装机制和背后思想"><a href="#npm-的安装机制和背后思想" class="headerlink" title="npm 的安装机制和背后思想"></a>npm 的安装机制和背后思想</h3><p>npm 的安装机制非常值得探究。Ruby 的 Gem、Python 的 pip 都是全局安装，但是 npm 的安装机制秉承了不同的设计哲学。</p>
+<p>它会优先安装依赖包到当前项目目录，使得不同应用项目的依赖各成体系，同时还减轻了包作者的 API 兼容性压力，但这样做的缺陷也很明显：如果我们的项目 A 和项目 B，都依赖了相同的公共库 C，那么公共库 C 一般都会在项目 A 和项目 B 中，各被安装一次。这就说明，同一个依赖包可能在我们的电脑上进行多次安装。</p>
+<p>当然，对于一些工具模块比如 supervisor 和 gulp，你仍然可以使用全局安装模式，这样方便注册 path 环境变量，我们可以在任何地方直接使用 supervisor、 gulp 这些命令。（不过，一般还是建议不同项目维护自己局部的 gulp 开发工具以适配不同项目需求。）</p>
+<p><img src="/img/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6.jpg" alt="npm安装机制"></p>
+<p>npm install 执行之后，首先，检查并获取 npm 配置，这里的优先级为：<strong>项目级的 .npmrc 文件 &gt; 用户级的 .npmrc 文件&gt; 全局级的 .npmrc 文件 &gt; npm 内置的 .npmrc 文件。</strong></p>
+<p>然后检查项目中是否有 package-lock.json 文件。</p>
+<p>如果有，则检查 package-lock.json 和 package.json 中声明的依赖是否一致：</p>
+<ul>
+<li><p>一致，直接使用 package-lock.json 中的信息，从缓存或网络资源中加载依赖；</p>
+</li>
+<li><p>不一致，按照 npm 版本进行处理（不同 npm 版本处理会有不同，具体处理方式如图所示）。</p>
+</li>
+</ul>
+<p>如果没有，则根据 package.json 递归构建依赖树。然后按照构建好的依赖树下载完整的依赖资源，在下载时就会检查是否存在相关资源缓存：</p>
+<ul>
+<li><p>存在，则将缓存内容解压到 node_modules 中；</p>
+</li>
+<li><p>否则就先从 npm 远程仓库下载包，校验包的完整性，并添加到缓存，同时解压到 node_modules。</p>
+</li>
+</ul>
+<p>最后生成 package-lock.json。</p>
+<p>构建依赖树时，当前依赖项目不管其是直接依赖还是子依赖的依赖，都应该按照<strong>扁平化原则</strong>，优先将其放置在 node_modules 根目录（最新版本 npm 规范）。在这个过程中，遇到相同模块就判断已放置在依赖树中的模块版本是否符合新模块的版本范围，如果符合则跳过；不符合则在当前模块的 node_modules 下放置该模块（最新版本 npm 规范）。</p>
+<p><strong>同一个项目成员应该保持一致的npm 版本</strong></p>
+<p>前端工程中，依赖嵌套依赖，一个中型项目中 node_moduels 安装包可能就已经是海量的了。如果安装包每次都通过网络下载获取，无疑会增加安装时间成本。对于这个问题，缓存始终是一个好的解决思路，我们接下来看看 npm 自己的缓存机制。</p>
+<h3 id="npm-缓存机制"><a href="#npm-缓存机制" class="headerlink" title="npm 缓存机制"></a>npm 缓存机制</h3><p>对于一个依赖包的同一版本进行本地化缓存，是当代依赖包管理工具的一个常见设计。使用时要先执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config get cache</span><br></pre></td></tr></table></figure>
+<p>我们可以使用以下命令清除 /Users/cehou/.npm/_cacache 中的文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm cache clean --force</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/img/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm-cache.jpg" alt="npm cache"></p>
+<p>接下来打开_cacache文件，看看 npm 缓存了哪些东西，一共有 3 个目录：</p>
+<ul>
+<li>content-v2</li>
+<li>index-v5</li>
+<li>tmp</li>
+</ul>
+<p>其中 content-v2 里面基本都是一些二进制文件。为了使这些二进制文件可读，我们把二进制文件的扩展名改为 .tgz，然后进行解压，得到的结果其实就是我们的 npm 包资源。</p>
+<p>而 index-v5 文件中，我们采用跟刚刚一样的操作就可以获得一些描述性的文件，事实上这些内容就是 content-v2 里文件的索引。</p>
+<p>这些缓存如何被储存并被利用的呢？</p>
+<p>这就和 npm install 机制联系在了一起。当 npm install 执行时，通过pacote把相应的包解压在对应的 node_modules 下面。npm 在下载依赖时，先下载到缓存当中，再解压到项目 node_modules 下。pacote 依赖npm-registry-fetch来下载包，npm-registry-fetch 可以通过设置 cache 属性，在给定的路径下根据IETF RFC 7234生成缓存数据。</p>
+<p>接着，在每次安装资源时，根据 package-lock.json 中存储的 integrity、version、name 信息生成一个唯一的 key，这个 key 能够对应到 index-v5 目录下的缓存记录。如果发现有缓存资源，就会找到 tar 包的 hash，根据 hash 再去找缓存的 tar 包，并再次通过pacote把对应的二进制文件解压到相应的项目 node_modules 下面，省去了网络下载资源的开销。</p>
+<p><strong>注意，这里提到的缓存策略是从 npm v5 版本开始的。在 npm v5 版本之前，每个缓存的模块在 ~/.npm 文件夹中以模块名的形式直接存储，储存结构是：{cache}/{name}/{version}。</strong></p>
+<h2 id="npm-不完全指南"><a href="#npm-不完全指南" class="headerlink" title="npm 不完全指南"></a>npm 不完全指南</h2><h3 id="npm-link"><a href="#npm-link" class="headerlink" title="npm link"></a>npm link</h3><p>从工作原理上总结，npm link 的本质就是软链接，它主要做了两件事：</p>
+<ul>
+<li><p>为目标 npm 模块（npm-package-1）创建软链接，将其链接到全局 node 模块安装路径 /usr/local/lib/node_modules/ 中；</p>
+</li>
+<li><p>为目标 npm 模块（npm-package-1）的可执行 bin 文件创建软链接，将其链接到全局 node 命令安装路径 /usr/local/bin/ 中。</p>
+<h3 id="npx-的作用"><a href="#npx-的作用" class="headerlink" title="npx 的作用"></a>npx 的作用</h3></li>
+</ul>
+<p>直接执行 node_modules/.bin 文件夹下的文件。在运行命令时，npx 可以自动去 node_modules/.bin 路径和环境变量 $PATH 里面检查命令是否存在，而不需要再在 package.json 中定义相关的 script。</p>
+<p><strong>npx 另一个更实用的好处是：npx 执行模块时会优先安装依赖，但是在安装执行后便删除此依赖，这就避免了全局安装模块带来的问题。</strong></p>
+<h3 id="npm-多源镜像和企业级部署私服原理"><a href="#npm-多源镜像和企业级部署私服原理" class="headerlink" title="npm 多源镜像和企业级部署私服原理"></a>npm 多源镜像和企业级部署私服原理</h3><p>npm 中的源（registry），其实就是一个查询服务。以 npmjs.org 为例，它的查询服务网址是 <a target="_blank" rel="noopener" href="https://registry.npmjs.org/">https://registry.npmjs.org/</a>。这个网址后面跟上模块名，就会得到一个 JSON 对象，里面是该模块所有版本的信息。比如，访问 <a target="_blank" rel="noopener" href="https://registry.npmjs.org/react">react</a>，就会看到 react 模块所有版本的信息。</p>
+<p>现在社区上主要有 3 种工具来搭建 npm 私服：nexus、verdaccio 以及 cnpm。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/2ntKGIkR3Uiy9cQfITg2NQ">聊聊 NPM 镜像那些险象环生的坑</a></p>
+</div><div class="article-licensing box"><div class="licensing-title"><p>前端工程化-npm 安装机制</p><p><a href="https://richardspace369.github.io/2021/03/08/工程化/npm安装机制/">https://richardspace369.github.io/2021/03/08/工程化/npm安装机制/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>richard</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2021-03-08</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2021-03-08</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a class="icon" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a><a class="icon" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2021/03/08/%E5%B7%A5%E7%A8%8B%E5%8C%96/yarm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">前端工程化-yarn 安装机制</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/03/08/javascript/%E7%BB%A7%E6%89%BF/"><span class="level-item">继承</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="level is-mobile" href="#npm-内部机制和核心原理"><span class="level-left"><span class="level-item">1</span><span class="level-item">npm 内部机制和核心原理</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#npm-的安装机制和背后思想"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">npm 的安装机制和背后思想</span></span></a></li><li><a class="level is-mobile" href="#npm-缓存机制"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">npm 缓存机制</span></span></a></li></ul></li><li><a class="level is-mobile" href="#npm-不完全指南"><span class="level-left"><span class="level-item">2</span><span class="level-item">npm 不完全指南</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#npm-link"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">npm link</span></span></a></li><li><a class="level is-mobile" href="#npx-的作用"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">npx 的作用</span></span></a></li><li><a class="level is-mobile" href="#npm-多源镜像和企业级部署私服原理"><span class="level-left"><span class="level-item">2.3</span><span class="level-item">npm 多源镜像和企业级部署私服原理</span></span></a></li></ul></li><li><a class="level is-mobile" href="#参考链接"><span class="level-left"><span class="level-item">3</span><span class="level-item">参考链接</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="column-right-shadow is-hidden-widescreen"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3"><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-08T10:06:08.329Z">2021-03-08</time></p><p class="title"><a href="/2021/03/08/javascript/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/">客户端存储</a></p><p class="categories"><a href="/categories/javascript/">javascript</a> / <a href="/categories/javascript/%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E5%82%A8/">客户端存储</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-08T10:06:08.329Z">2021-03-08</time></p><p class="title"><a href="/2021/03/08/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E6%8C%87%E6%A0%87%E9%87%87%E9%9B%86/">性能优化-指标采集</a></p><p class="categories"><a href="/categories/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-08T10:06:08.329Z">2021-03-08</time></p><p class="title"><a href="/2021/03/08/javascript/promise/">异步编程-promise</a></p><p class="categories"><a href="/categories/javascript/">javascript</a> / <a href="/categories/javascript/promise/">promise</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-08T10:06:08.329Z">2021-03-08</time></p><p class="title"><a href="/2021/03/08/%E5%B7%A5%E7%A8%8B%E5%8C%96/yarm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6/">前端工程化-yarn 安装机制</a></p><p class="categories"><a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-03-08T10:06:08.329Z">2021-03-08</time></p><p class="title"><a href="/2021/03/08/%E5%B7%A5%E7%A8%8B%E5%8C%96/npm%E5%AE%89%E8%A3%85%E6%9C%BA%E5%88%B6/">前端工程化-npm 安装机制</a></p><p class="categories"><a href="/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/">前端工程化</a></p></div></article></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">RichardSpace</a><p class="is-size-7"><span>&copy; 2021 richard</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/RichardSpace369"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
