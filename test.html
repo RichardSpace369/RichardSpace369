@@ -8,47 +8,26 @@
 	</head>
 	<body>
 		<script>
-			class CookieUtil {
-				static get(name) {
-					let cookieName = `${encodeURIComponent(name)}=`,
-						cookieStart = document.cookie.indexOf(cookieName),
-						cookieValue = null;
-					if (cookieStart > -1) {
-						let cookieEnd = document.cookie.indexOf(';', cookieStart);
-						if (cookieEnd == -1) {
-							cookieEnd = document.cookie.length;
-						}
-						cookieValue = decodeURIComponent(
-							document.cookie.substring(
-								cookieStart + cookieName.length,
-								cookieEnd
-							)
-						);
-					}
-					return cookieValue;
+			//顺序遍历两个数组，将数组元素存放到哈希表中，同时对统计的数组元素进行计数。如果某个元素的计数器的值为2，则该元素为两者的交集元素
+			function mixed(arr1, arr2) {
+				const map = new Map();
+				for (let i = 0; i < arr1.length; i++) {
+					map.set(arr1[i], 1);
 				}
-				static set(name, value, expires, path, domain, secure) {
-					let cookieText = `${encodeURIComponent(name)}=${encodeURIComponent(
-						value
-					)}`;
-					if (expires instanceof Date) {
-						cookieText += `; expires=${expires.toGMTString()}`;
+				for (let k = 0; k < arr2.length; k++) {
+					if (map.has(arr2[k])) {
+						map.set(arr2[k], 2);
 					}
-					if (path) {
-						cookieText += `; path=${path}`;
-					}
-					if (domain) {
-						cookieText += `; domain=${domain}`;
-					}
-					if (secure) {
-						cookieText += '; secure';
-					}
-					document.cookie = cookieText;
 				}
-				static unset(name, path, domain, secure) {
-					CookieUtil.set(name, '', new Date(0), path, domain, secure);
+				const results = [];
+				for (let [key, value] of map) {
+					if (value === 2) {
+						results.push(key);
+					}
 				}
+				return results;
 			}
+			console.log(mixed([1, 2, 3, 4], [3, 4, 5, 6, 7])); //[3,4]
 		</script>
 	</body>
 </html>

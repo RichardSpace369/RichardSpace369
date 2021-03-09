@@ -1,8 +1,8 @@
 ---
-title: 前端工程化-npm 安装机制
+title: 前端工程化-npm和Yarn安装机制
 author: richard
 toc: true
-excerpt: 掌握了解npm 安装机制...
+excerpt: 掌握了解npm 和yarn安装机制...
 categories:
 - 前端工程化
 ---
@@ -88,6 +88,7 @@ npm config get cache
 - 为目标 npm 模块（npm-package-1）创建软链接，将其链接到全局 node 模块安装路径 /usr/local/lib/node_modules/ 中；
 
 - 为目标 npm 模块（npm-package-1）的可执行 bin 文件创建软链接，将其链接到全局 node 命令安装路径 /usr/local/bin/ 中。
+
 ### npx 的作用
 
 直接执行 node_modules/.bin 文件夹下的文件。在运行命令时，npx 可以自动去 node_modules/.bin 路径和环境变量 $PATH 里面检查命令是否存在，而不需要再在 package.json 中定义相关的 script。
@@ -99,7 +100,72 @@ npm 中的源（registry），其实就是一个查询服务。以 npmjs.org 为
 
 现在社区上主要有 3 种工具来搭建 npm 私服：nexus、verdaccio 以及 cnpm。
 
+## yarn 解决了npm之前的哪些问题
+
+当 npm 还处在 v3 时期时，一个叫作 Yarn 的包管理方案横空出世。2016 年，npm 还没有 package-lock.json 文件，安装速度很慢，稳定性也较差，而 Yarn 的理念很好地解决了以下问题。
+
+1. 确定性：通过 yarn.lock 等机制，保证了确定性。即不管安装顺序如何，相同的依赖关系在任何机器和环境下，都可以以相同的方式被安装。（在 npm v5 之前，没有 package-lock.json 机制，只有默认并不会使用的npm-shrinkwrap.json。）
+
+2. 采用模块扁平安装模式：将依赖包的不同版本，按照一定策略，归结为单个版本，以避免创建多个副本造成冗余（npm 目前也有相同的优化）。
+
+3. 网络性能更好：Yarn 采用了请求排队的理念，类似并发连接池，能够更好地利用网络资源；同时引入了更好的安装失败时的重试机制。
+
+4. 采用缓存机制，实现了离线模式（npm 目前也有类似实现）。
+
+
+相比 npm，**Yarn 另外一个显著区别是 yarn.lock 中子依赖的版本号不是固定版本**。这就说明单独一个 yarn.lock 确定不了 node_modules 目录结构，还需要和 package.json 文件进行配合。
+
+## Yarn 安装机制和背后思想
+
+Yarn 的安装过程主要有以下 5 大步骤：
+
+检测（checking）→ 解析包（Resolving Packages） → 获取包（Fetching Packages）→ 链接包（Linking Packages）→ 构建包（Building Packages）
+
+### 检测包（checking）
+
+这一步主要是检测项目中是否存在一些 npm 相关文件，比如 package-lock.json 等。如果有，会提示用户注意：这些文件的存在可能会导致冲突。在这一步骤中，也会检查系统 OS、CPU 等信息。
+
+### 解析包（Resolving Packages）
+
+这一步会解析依赖树中每一个包的版本信息。
+
+首先获取当前项目中 package.json 定义的 dependencies、devDependencies、optionalDependencies 的内容，这属于首层依赖。
+
+接着**采用遍历首层依赖的方式获取依赖包的版本信息**，以及递归查找每个依赖下嵌套依赖的版本信息，并将解析过和正在解析的包用一个 Set 数据结构来存储，这样就能保证同一个版本范围内的包不会被重复解析。
+
+- 对于没有解析过的包 A，首次尝试从 yarn.lock 中获取到版本信息，并标记为已解析；
+
+- 如果在 yarn.lock 中没有找到包 A，则向 Registry 发起请求获取满足版本范围的已知最高版本的包信息，获取后将当前包标记为已解析。
+
+总之，在经过解析包这一步之后，我们就确定了所有依赖的具体版本信息以及下载地址。
+![解析包](/img/工程化/yarn解析包.jpg)
+### 获取包（Fetching Packages）
+
+这一步我们首先需要检查缓存中是否存在当前的依赖包，同时将缓存中不存在的依赖包下载到缓存目录。说起来简单，但是还是有些问题值得思考。
+
+比如：如何判断缓存中是否存在当前的依赖包？
+
+其实 Yarn 会根据 cacheFolder+slug+node_modules+pkg.name 生成一个 path，判断系统中是否存在该 path，如果存在证明已经有缓存，不用重新下载。这个 path 也就是依赖包缓存的具体路径。
+
+
+对于没有命中缓存的包，Yarn 会维护一个 fetch 队列，按照规则进行网络请求。如果下载包地址是一个 file 协议，或者是相对路径，就说明其指向一个本地目录，此时调用 Fetch From Local 从离线缓存中获取包；否则调用 Fetch From External 获取包。最终获取结果使用 fs.createWriteStream 写入到缓存目录下。
+![yarn获取包](/img/工程化/yarn获取包.jpg)
+
+
+### 链接包（Linking Packages）
+
+上一步是将依赖下载到缓存目录，这一步是将项目中的依赖复制到项目 node_modules 下，同时遵循扁平化原则。在复制依赖前，Yarn 会先解析 peerDependencies，如果找不到符合 peerDependencies 的包，则进行 warning 提示，并最终拷贝依赖到项目中。
+![yarn链接包](/img/工程化/yarn链接包.png)
+
+
+
+### 构建包（Building Packages）
+
+如果依赖包中存在二进制包需要进行编译，会在这一步进行。
+
+
 
 
 ## 参考链接
 [聊聊 NPM 镜像那些险象环生的坑](https://mp.weixin.qq.com/s/2ntKGIkR3Uiy9cQfITg2NQ)
+
