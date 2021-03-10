@@ -30,6 +30,15 @@ Object.assign 方法只会拷贝源对象自身的并且可枚举的属性到目
 ###  Object.create()
 >Object.create()方法创建一个新对象，使用现有的对象来提供新创建的对象的__proto__。
 
+```
+Object.create(proto，[propertiesObject])
+```
+
+- proto  新创建对象的原型对象。
+
+- propertiesObject 可选。需要传入一个对象(参考Object.defineProperties()的第二个参数),如果propertiesObject参数是 null 或非原始包装对象，则抛出一个 TypeError 异常。
+
+
 ###  Object.defineProperty()
 >Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回此对象
 
@@ -63,9 +72,12 @@ const frezzPerson=Object.freeze(person)
 frezzPerson.age=28// 修改不成功
 frezzPerson.address.prefix="yyyy"// 修改成功
 ```
+### Object.getOwnPropertyDescriptors()
+>Object.getOwnPropertyDescriptors() 方法用来获取一个对象的所有自身属性的描述符。
+
 
 ###  Object.getPrototypeOf()和Object.setPrototypeOf()
-
+>Object.getPrototypeOf() 方法返回指定对象的原型 ( 即, 内部[[Prototype]]属性）。
 ###  Object.is()
 >比较两个值是否相同。所有 NaN 值都相等（这与==和===不同）。
 
